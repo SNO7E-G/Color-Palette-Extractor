@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 /* Base reset */
 * {
   margin: 0;
@@ -16,13 +18,52 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Root styles from App.css */
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: clamp(1rem, 5vw, 2rem);
-  text-align: center;
-  overflow-x: hidden;
+/* Custom classes */
+.glass-effect {
+  background-color: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dark .glass-effect {
+  background-color: rgba(31, 41, 55, 0.4);
+}
+
+.glass-card {
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+}
+
+.glass-hover:hover {
+  background-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.dark .glass-hover:hover {
+  background-color: rgba(31, 41, 55, 0.6);
+}
+
+.hover-lift {
+  transition: all 0.3s ease-out;
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.focus-ring:focus {
+  outline: none;
+}
+
+.focus-ring:focus-visible {
+  outline: 2px solid rgb(59, 130, 246);
+  outline-offset: 2px;
+}
+
+.dark .focus-ring:focus-visible {
+  outline-color: rgb(96, 165, 250);
 }
 
 /* Scrollbar styling */

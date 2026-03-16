@@ -1,7 +1,1 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: clamp(1rem, 5vw, 2rem);
-  text-align: center;
-  overflow-x: hidden;
-}
+/* App-specific styles - layout handled by Tailwind classes in App.jsx */
