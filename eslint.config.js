@@ -1,6 +1,4 @@
 import js from '@eslint/js'
-import configArray from '@eslint/config-array'
-import objectSchema from '@eslint/object-schema'
 import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
