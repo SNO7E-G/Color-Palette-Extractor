@@ -32,13 +32,14 @@ export default function UploadArea({ onColorsExtracted, onError }) {
   }, [dropDepth]);
 
   const processImage = useCallback(async (file) => {
+    let previewUrl = null;
     try {
       setError('');
       setIsProcessing(true);
       setLoadingProgress(0);
 
       // Create preview
-      const previewUrl = URL.createObjectURL(file);
+      previewUrl = URL.createObjectURL(file);
       setPreview(previewUrl);
 
       // Simulate loading progress
@@ -95,6 +96,10 @@ export default function UploadArea({ onColorsExtracted, onError }) {
         onError(err);
       }
     } finally {
+      // Clean up preview URL to prevent memory leak
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl);
+      }
       setIsProcessing(false);
       setLoadingProgress(0);
     }

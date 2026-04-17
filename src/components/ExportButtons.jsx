@@ -76,27 +76,47 @@ export default function ExportButtons({ colors, paletteRef }) {
         await saveAs(blob, 'color-palette.json');
         showExportStatus('✨ Palette exported as JSON!');
       } else if (type === 'png') {
-        // Create a virtual palette container
+        // Create a virtual palette container with timestamp
         const virtualContainer = document.createElement('div');
         virtualContainer.style.position = 'absolute';
         virtualContainer.style.top = '-9999px';
         virtualContainer.style.left = '-9999px';
         virtualContainer.style.padding = '24px';
         virtualContainer.style.background = '#ffffff';
-        virtualContainer.style.display = 'grid';
-        virtualContainer.style.gridTemplateColumns = 'repeat(auto-fit, minmax(120px, 1fr))';
+        virtualContainer.style.display = 'flex';
+        virtualContainer.style.flexDirection = 'column';
+        virtualContainer.style.alignItems = 'center';
         virtualContainer.style.gap = '16px';
         virtualContainer.style.fontFamily = 'sans-serif';
         virtualContainer.style.width = '1000px';
       
-        const isDarkColor = (hex) => {
-          hex = hex.replace(/^#/, '');
-          const r = parseInt(hex.substring(0, 2), 16);
-          const g = parseInt(hex.substring(2, 4), 16);
-          const b = parseInt(hex.substring(4, 6), 16);
-          const luminance = 0.299 * r + 0.587 * g + 0.114 * b;
-          return luminance < 150;
-        };
+        // Add title and timestamp at the top
+        const headerDiv = document.createElement('div');
+        headerDiv.style.textAlign = 'center';
+        headerDiv.style.marginBottom = '16px';
+        
+        const titleElement = document.createElement('h2');
+        titleElement.innerText = 'Color Palette';
+        titleElement.style.fontSize = '24px';
+        titleElement.style.fontWeight = 'bold';
+        titleElement.style.marginBottom = '8px';
+        titleElement.style.color = '#333333';
+        
+        const timestampElement = document.createElement('p');
+        timestampElement.innerText = new Date().toLocaleString();
+        timestampElement.style.fontSize = '14px';
+        timestampElement.style.color = '#666666';
+        
+        headerDiv.appendChild(titleElement);
+        headerDiv.appendChild(timestampElement);
+        virtualContainer.appendChild(headerDiv);
+      
+        // Create swatches grid
+        const swatchesGrid = document.createElement('div');
+        swatchesGrid.style.display = 'grid';
+        swatchesGrid.style.gridTemplateColumns = 'repeat(auto-fit, minmax(120px, 1fr))';
+        swatchesGrid.style.gap = '16px';
+        swatchesGrid.style.width = '100%';
       
         colors.forEach(color => {
           const swatch = document.createElement('div');
@@ -113,8 +133,10 @@ export default function ExportButtons({ colors, paletteRef }) {
           swatch.style.color = isDarkColor(color) ? '#fff' : '#000';
           swatch.innerText = color;
       
-          virtualContainer.appendChild(swatch);
+          swatchesGrid.appendChild(swatch);
         });
+      
+        virtualContainer.appendChild(swatchesGrid);
       
         document.body.appendChild(virtualContainer);
       
@@ -127,10 +149,6 @@ export default function ExportButtons({ colors, paletteRef }) {
       
         document.body.removeChild(virtualContainer);
         
-        const timestamp = document.createElement('p');
-        timestamp.innerText = new Date().toLocaleString();
-        timestamp.style.textAlign = 'center';
-        virtualContainer.appendChild(timestamp);
         canvas.toBlob((blob) => {
           if (blob) {
             setExportProgress(100);
